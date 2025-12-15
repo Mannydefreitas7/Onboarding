@@ -36,30 +36,7 @@ public extension View {
                 storage: storage,
                 config: config,
                 appIcon: appIcon,
-                continueMode: .standard(action: continueAction),
-                dataPrivacyContent: dataPrivacyContent,
-                flowContent: nil
-            )
-        )
-    }
-
-    /// Presents onboarding content as a sheet using a Sign in with Apple button in place of the default continue button.
-    ///
-    /// - Parameters:
-    ///   - signInWithAppleConfiguration: Configuration that customizes the Sign in with Apple control.
-    func presentOnboardingIfNeeded<C: View>(
-        storage: AppStorage<Bool> = .onboarding,
-        config: OnboardingConfiguration,
-        appIcon: Image,
-        signInWithAppleConfiguration: SignInWithAppleButtonConfiguration,
-        @ViewBuilder dataPrivacyContent: @escaping () -> C
-    ) -> some View {
-        modifier(
-            OnboardingSheetModifier<C, EmptyView>(
-                storage: storage,
-                config: config,
-                appIcon: appIcon,
-                continueMode: .signIn(configuration: signInWithAppleConfiguration),
+                continueAction: continueAction,
                 dataPrivacyContent: dataPrivacyContent,
                 flowContent: nil
             )
@@ -83,32 +60,7 @@ public extension View {
                 storage: storage,
                 config: config,
                 appIcon: appIcon,
-                continueMode: .standard(action: continueAction),
-                dataPrivacyContent: dataPrivacyContent,
-                flowContent: flowContent
-            )
-        )
-    }
-
-    /// Presents onboarding as a sheet with a Sign in with Apple button and allows for a custom onboarding flow after the welcome screen.
-    ///
-    /// - Parameters:
-    ///   - signInWithAppleConfiguration: Configuration that customizes the Sign in with Apple control.
-    ///   - flowContent: A view builder for additional steps after the welcome screen.
-    func presentOnboardingIfNeeded<C: View, F: View>(
-        storage: AppStorage<Bool> = .onboarding,
-        config: OnboardingConfiguration,
-        appIcon: Image,
-        signInWithAppleConfiguration: SignInWithAppleButtonConfiguration,
-        @ViewBuilder dataPrivacyContent: @escaping () -> C,
-        @ViewBuilder flowContent: @escaping () -> F
-    ) -> some View {
-        modifier(
-            OnboardingSheetModifier<C, F>(
-                storage: storage,
-                config: config,
-                appIcon: appIcon,
-                continueMode: .signIn(configuration: signInWithAppleConfiguration),
+                continueAction: continueAction,
                 dataPrivacyContent: dataPrivacyContent,
                 flowContent: flowContent
             )
@@ -118,14 +70,9 @@ public extension View {
 
 @MainActor
 private struct OnboardingSheetModifier<C: View, F: View> {
-    public enum ContinueMode {
-        case standard(action: (() -> Void)?)
-        case signIn(configuration: SignInWithAppleButtonConfiguration)
-    }
-
     private let config: OnboardingConfiguration
     private let appIcon: Image
-    private let continueMode: ContinueMode
+    private let continueAction: (() -> Void)?
     private let dataPrivacyContent: () -> C
     private let flowContent: (() -> F)?
     @AppStorage private var isOnboardingCompleted: Bool
@@ -135,27 +82,20 @@ private struct OnboardingSheetModifier<C: View, F: View> {
         storage: AppStorage<Bool>,
         config: OnboardingConfiguration,
         appIcon: Image,
-        continueMode: ContinueMode,
+        continueAction: (() -> Void)?,
         @ViewBuilder dataPrivacyContent: @escaping () -> C,
         flowContent: (() -> F)? = nil
     ) {
         self._isOnboardingCompleted = storage
         self.config = config
         self.appIcon = appIcon
-        self.continueMode = continueMode
+        self.continueAction = continueAction
         self.dataPrivacyContent = dataPrivacyContent
         self.flowContent = flowContent
     }
 
-    private var signInWithAppleConfiguration: SignInWithAppleButtonConfiguration? {
-        if case let .signIn(configuration) = continueMode {
-            return configuration
-        }
-        return nil
-    }
-
     private func handleContinue() {
-        if case let .standard(action) = continueMode, let action {
+        if let action = continueAction {
             action()
             isWelcomeScreenCompleted = true
             return
@@ -204,8 +144,7 @@ private extension OnboardingSheetModifier {
                 config: configuration,
                 appIcon: appIcon,
                 continueAction: handleContinue,
-                dataPrivacyContent: dataPrivacyContent,
-                signInWithAppleConfiguration: signInWithAppleConfiguration
+                dataPrivacyContent: dataPrivacyContent
             )
         }
     }
@@ -218,23 +157,6 @@ private extension OnboardingSheetModifier {
     .presentOnboardingIfNeeded(
         config: .mock,
         appIcon: Image(.onboardingKitMockAppIcon),
-        dataPrivacyContent: {
-            Text("Privacy Policy Content")
-        }
-    )
-}
-
-#Preview("Welcome Screen with Sign in with Apple") {
-    VStack {
-        Spacer()
-    }
-    .presentOnboardingIfNeeded(
-        config: .mock,
-        appIcon: Image(.onboardingKitMockAppIcon),
-        signInWithAppleConfiguration: .init(
-            onRequest: { _ in },
-            onCompletion: { _ in }
-        ),
         dataPrivacyContent: {
             Text("Privacy Policy Content")
         }

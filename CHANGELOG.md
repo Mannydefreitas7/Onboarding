@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Bulgarian Language Localization**: Added Bulgarian language support to the localization system.
-- **Sign-in with Apple Button**: New `SignInWithAppleButtonConfiguration` and button component for easy Apple Sign-In integration.
 - **CHANGELOG**: Added this changelog file to track all notable changes to the project.
+
+### Removed
+- Sign in with Apple configuration and button helpers have been removed from the package.
 
 ## [2.1.3] - 2025-10-03
 
