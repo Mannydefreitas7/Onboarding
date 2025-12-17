@@ -1,6 +1,5 @@
 //
 //  ImageResources.swift
-//  OnboardingKit
 //
 //  Created by James Sedlacek on 10/3/25.
 //
@@ -8,11 +7,11 @@
 import SwiftUI
 
 extension ImageResource {
-    public static let onboardingKitDataPrivacy: Self = .init(
+    public static let dataPrivacyResource: Self = .init(
         name: "DataPrivacy",
         bundle: .module
     )
-    public static let onboardingKitMockAppIcon: Self = .init(
+    public static let mockAppIconResource: Self = .init(
         name: "MockAppIcon",
         bundle: .module
     )

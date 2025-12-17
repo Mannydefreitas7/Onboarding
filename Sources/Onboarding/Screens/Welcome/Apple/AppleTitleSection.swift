@@ -1,6 +1,6 @@
 //
-//  TitleSection.swift
-//  
+//  AppleTitleSection.swift
+//
 //
 //  Created by James Sedlacek on 12/30/23.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-struct TitleSection {
+struct AppleTitleSection {
     private let config: AppleWelcomeScreen.Configuration
     private let shouldHideAppIcon: Bool
     @State private var isAnimating = false
@@ -29,7 +29,7 @@ struct TitleSection {
 }
 
 @MainActor
-extension TitleSection: View {
+extension AppleTitleSection: View {
     var body: some View {
         VStack(alignment: config.titleSectionAlignment, spacing: 2) {
             appIconView
@@ -73,7 +73,7 @@ extension TitleSection: View {
 }
 
 #Preview {
-    TitleSection(
+    AppleTitleSection(
         config: .mock,
         shouldHideAppIcon: true
     )

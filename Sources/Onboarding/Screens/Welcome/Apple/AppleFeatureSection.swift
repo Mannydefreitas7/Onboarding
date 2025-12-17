@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  AppleFeatureSection.swift
 //  
 //
 //  Created by James Sedlacek on 12/30/23.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-struct FeatureSection: View {
+struct AppleFeatureSection: View {
     private let config: AppleWelcomeScreen.Configuration
     @State private var isAnimating: [Bool] = []
 
@@ -90,7 +90,7 @@ struct FeatureView: View {
 #Preview {
     ScrollView {
         VStack(spacing: 20) {
-            FeatureSection(config: .mock)
+            AppleFeatureSection(config: .mock)
         }
         .padding(40)
     }

@@ -66,7 +66,7 @@ public struct AppleWelcomeScreen {
 public extension AppleWelcomeScreen.Configuration {
     static let mock = Self(
         appDisplayName: .init("Onboarding"),
-        appIcon: Image(.onboardingKitMockAppIcon),
+        appIcon: Image(.mockAppIconResource),
         features: [.mock, .mock2, .mock3, .mock4, .mock5, .mock6],
         privacyPolicyURL: URL(string: "https://example.com/privacy")
     )
@@ -92,7 +92,7 @@ extension AppleWelcomeScreen: View {
     }
 
     private var titleSection: some View {
-        TitleSection(
+        AppleTitleSection(
             config: config,
             shouldHideAppIcon: !isAnimating
         )
@@ -100,13 +100,13 @@ extension AppleWelcomeScreen: View {
     }
 
     private var featureSection: some View {
-        FeatureSection(config: config)
+        AppleFeatureSection(config: config)
             .opacity(isAnimating ? 1 : 0)
             .padding(.horizontal, 48)
     }
 
     private func bottomSection() -> some View {
-        BottomSection(
+        AppleBottomSection(
             accentColor: config.accentColor,
             appDisplayName: config.appDisplayName,
             privacyPolicyURL: config.privacyPolicyURL,

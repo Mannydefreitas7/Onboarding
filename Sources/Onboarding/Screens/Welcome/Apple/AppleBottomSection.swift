@@ -1,5 +1,5 @@
 //
-//  BottomSection.swift
+//  AppleBottomSection.swift
 //  
 //
 //  Created by James Sedlacek on 12/30/23.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-struct BottomSection {
+struct AppleBottomSection {
     private let accentColor: Color
     private let appDisplayName: String
     private let privacyPolicyURL: URL?
@@ -41,7 +41,7 @@ struct BottomSection {
 }
 
 @MainActor
-extension BottomSection: View {
+extension AppleBottomSection: View {
     var body: some View {
         VStack(alignment: .center, spacing: .zero) {
             dataPrivacyImage
@@ -57,7 +57,7 @@ extension BottomSection: View {
     }
 
     private var dataPrivacyImage: some View {
-        Image(.onboardingKitDataPrivacy)
+        Image(.dataPrivacyResource)
             .resizable()
             .foregroundStyle(accentColor)
             .frame(width: 40, height: 40)
@@ -113,7 +113,7 @@ extension BottomSection: View {
         Spacer()
     }
     .safeAreaInset(edge: .bottom) {
-        BottomSection(
+        AppleBottomSection(
             accentColor: .blue,
             appDisplayName: .init("Test App"),
             privacyPolicyURL: URL(string: "https://example.com/privacy"),
