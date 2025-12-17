@@ -8,6 +8,12 @@
 import SwiftUI
 
 extension ImageResource {
-    public static let onboardingKitDataPrivacy: Self = .init(name: "DataPrivacy", bundle: .module)
-    public static let onboardingKitMockAppIcon: Self = .init(name: "MockAppIcon", bundle: .module)
+    public static let onboardingKitDataPrivacy: Self = .init(
+        name: "DataPrivacy",
+        bundle: .module
+    )
+    public static let onboardingKitMockAppIcon: Self = .init(
+        name: "MockAppIcon",
+        bundle: .module
+    )
 }
