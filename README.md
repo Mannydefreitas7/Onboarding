@@ -229,6 +229,27 @@ Need more than a single welcome screen? Build whatever flow you need inside the 
 }
 ```
 
+#### Notifications Permissions Screen
+
+Use the built-in notifications priming screen to request authorization and continue on success:
+```swift
+import Onboarding
+import SwiftUI
+
+PermissionsScreen.notifications(
+    accentColor: .blue,
+    subtitle: "Stay up to date with important alerts.",
+    appIcon: Image("AppIcon"),
+    authorizationOptions: [.alert, .badge, .sound],
+    allowAction: {
+        // Continue your flow after authorization succeeds.
+    },
+    failureAction: { granted, error in
+        // Handle declines or errors.
+    }
+)
+```
+
 ## Configuration Options
 
 ### WelcomeScreen
@@ -240,6 +261,12 @@ Need more than a single welcome screen? Build whatever flow you need inside the 
 - `.modern(ModernWelcomeScreen.Configuration)`: Card-based feature layout with inline terms/privacy links.
   - Required: `appIcon`, `appDisplayName`, `features`, `termsOfServiceURL`, `privacyPolicyURL`
   - Optional: `accentColor`, `titleSectionAlignment`
+
+### PermissionsScreen
+
+- `.notifications(NotificationsPriming.Configuration)`: Notifications priming screen with a system permission request.
+  - Required: `subtitle`
+  - Optional: `accentColor`, `title`, `appIcon`, `authorizationOptions`, `allowAction`, `skipAction`, `failureAction`
 
 ### AppleWelcomeScreen.Configuration
 
